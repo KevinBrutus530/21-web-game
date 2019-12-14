@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let deck_id;
     let score = 0;
     let playerScore;
+    let main = document.querySelector("#main")
     let hitBtn = document.querySelector("#hit")
     let begin = document.querySelector("#begin")
     let player = document.querySelector("#player")
@@ -37,24 +38,25 @@ document.addEventListener("DOMContentLoaded", () => {
             playerScore.innerText = `Score: ${score}`
             player.appendChild(playerScore);  
             begin.removeChild(start)
+            if(score === 21){
+                body.parentNode.removeChild(main)
+                let win = document.createElement("h1")
+                win.innerText = "YOU BITCH ASS WINNER"
+                document.body.appendChild(win)
+            }
         }
         catch(err){
             console.log(err)
         }
     }
 
-    const scoreKeeper = (score) => {
-        for(let i = 0; i < draw.data.cards.length; i++){
-            if(draw.data.cards[i].value === "KING" || draw.data.cards[i].value === "QUEEN" || draw.data.cards[i].value === "JACK"){
-                draw.data.cards[i].value = 10 
-            } else if (draw.data.cards[i].value === "ACE"){
-                draw.data.cards[i].value = 11
-            }
-            score += Number(draw.data.cards[i].value)
-            playerScore.innerText = `Score: ${score}`
-        }
-    }
-
+    // const scoreKeeper = (score, card) => {
+    //     score += Number(card.data.cards[].value)
+    //     if(scored === 21){
+    //         let win = document.createElement("h2")
+    //         win.innerText = 
+    //     }
+    // }
     const hit = async() => {
         // if(score < 21) {
             let card = await axios.get(`https://deckofcardsapi.com/api/deck/${deck_id}/draw/?count=1`);
@@ -62,15 +64,27 @@ document.addEventListener("DOMContentLoaded", () => {
             let src = card.data.cards[0].image;
             hitCard.src = src;
             player.appendChild(hitCard);
-    //         if(card.data.cards[0].value === "KING" || card.data.cards[0].value === "QUEEN" || card.data.cards[0].value === "JACK"){
-    //             card.data.cards[0].value = 10 
-    //         } else if (card.data.cards[0].value === "ACE"){
-    //             card.data.cards[0].value = 11
-    //         }
-    //         score += Number(card.data.cards[0].value)
-    //         playerScore.innerText = `Score: ${score}`
-    //         // player.appendChild(playerScore);  
-    //         debugger
+            score += Number(card.data.cards[0].value)
+            playerScore.innerText = `Score: ${score}`
+            if(score > 21){
+                // document.body.parentNode.removeChild(main)
+                let lose = document.createElement("h2")
+                lose.innerText = "LOSE HOE"
+                document.body.replaceWith(lose)
+                // document.body.appendChild(lose)
+            } else if(score < 21) {
+                let hitAgain = document.createElement("h2")
+                hitAgain.innerText = "HIT OR STAY?!"
+                player.appendChild(hitAgain)
+            }
+            if(card.data.cards[0].value === "KING" || card.data.cards[0].value === "QUEEN" || card.data.cards[0].value === "JACK"){
+                card.data.cards[0].value = 10 
+            } 
+            if (card.data.cards[0].value === "ACE"){
+                card.data.cards[0].value = 11
+            }
+            // player.appendChild(playerScore);  
+            debugger
     // } else if(score > 21) {
     //     let bust = document.createElement("h2")
     //     bust.innerText = "YOU ARE A LOSER"
