@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let start = document.querySelector("#start");
     let deck_id;
     let score = 0;
+    let begin = document.querySelector("#begin")
     let player = document.querySelector("#player")
     let dealer = document.querySelector("#dealer")
     const drawCards = async () => {
@@ -29,11 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             playerScore.innerText = `Score: ${score}`
             player.appendChild(playerScore);  
+            begin.removeChild(start)
         }
         catch(err){
             console.log(err)
         }
     }
+    
+    const hit = async() => {
 
+    }
     start.addEventListener("click", drawCards)
+    hitBtn.addEventListener("click", hit)
 })
