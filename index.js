@@ -36,10 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
             player.appendChild(playerScore);  
             begin.removeChild(start)
             if(score === 21){
-                body.parentNode.removeChild(main)
                 let win = document.createElement("h1")
                 win.innerText = "YOU BITCH ASS WINNER"
-                document.body.appendChild(win)
+                main.replaceWith(win)
             }
         }
         catch(err){
@@ -54,22 +53,27 @@ document.addEventListener("DOMContentLoaded", () => {
             let src = card.data.cards[0].image;
             hitCard.src = src;
             player.appendChild(hitCard);
-            score += Number(card.data.cards[0].value)
-            playerScore.innerText = `Score: ${score}`
-            if(score > 21){
-                let lose = document.createElement("h2")
-                lose.innerText = "LOSE HOE"
-                document.body.replaceWith(lose)
-            } else if(score < 21) {
-                let hitAgain = document.createElement("h2")
-                hitAgain.innerText = "HIT OR STAY?!"
-                player.appendChild(hitAgain)
-            }
             if(card.data.cards[0].value === "KING" || card.data.cards[0].value === "QUEEN" || card.data.cards[0].value === "JACK"){
                 card.data.cards[0].value = 10 
             } 
             if (card.data.cards[0].value === "ACE"){
                 card.data.cards[0].value = 11
+            }
+            score += Number(card.data.cards[0].value)
+            playerScore.innerText = `Score: ${score}`
+            if(score === 21){
+                let winner = document.createElement("h2")
+                winner.innerText = " 21! You win"
+                main.replaceWith(winner)
+            }
+            if(score > 21){
+                let lose = document.createElement("h2")
+                lose.innerText = "LOSE HOE"
+                main.replaceWith(lose)
+            } else if(score < 21) {
+                let hitAgain = document.createElement("h2")
+                hitAgain.innerText = "HIT OR STAY?!"
+                player.appendChild(hitAgain)
             }
     }
 
