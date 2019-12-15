@@ -3,10 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let deck_id;
     let score = 0;
     let dscore = 0;
+    let imgArr = []
     let playerScore;
     let dealerScore;
     let game = document.querySelector("#game")
-    let main = document.querySelector("#main")
     let hitBtn = document.querySelector("#hit")
     let stayBtn = document.querySelector("#stay")
     let begin = document.querySelector("#begin")
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             begin.removeChild(start)
             if(score === 21){
                 displayResults.innerText = "21! You Win."
-                player.appendChild(displayResults)
+                game.replaceWith(displayResults)
             }
         }
         catch(err){
