@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let playerScore;
     let main = document.querySelector("#main")
     let hitBtn = document.querySelector("#hit")
+    let stayBtn = document.querySelector("#stay")
     let begin = document.querySelector("#begin")
     let player = document.querySelector("#player")
     let dealer = document.querySelector("#dealer")
@@ -79,7 +80,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 player.appendChild(hitAgain)
             }
     }
+    const compCards = async () => {
+        let dealerDraw = await axios.get(`https://deckofcardsapi.com/api/deck/${deck_id}/draw/?count=2`);
+
+        for(let i = 0; i < dealerDraw.data.cards.length; i++){
+            let dealerImg = document.createElement("img");
+            let src = dealerDraw.data.cards[i].image;
+            dealerImg.src = src;
+            dealer.appendChild(dealerImg);
+        }
+    }
 
     start.addEventListener("click", drawCards)
     hitBtn.addEventListener("click", hit)
+    stayBtn.addEventListener("click", compCards)
 })
