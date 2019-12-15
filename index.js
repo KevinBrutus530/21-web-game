@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let begin = document.querySelector("#begin")
     let player = document.querySelector("#player")
     let dealer = document.querySelector("#dealer")
-
+   
     const drawCards = async () => {
         try {
             let res = await axios.get("https://deckofcardsapi.com/api/deck/new/");
