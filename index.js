@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let begin = document.querySelector("#begin")
     let player = document.querySelector("#player")
     let dealer = document.querySelector("#dealer")
+    let displayResults = document.createElement("h1")
    
     const drawCards = async () => {
         try {
@@ -44,9 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
             player.appendChild(playerScore);  
             begin.removeChild(start)
             if(score === 21){
-                let win = document.createElement("h1")
-                win.innerText = "21! You Win."
-                player.appendChild(win)
+                displayResults.innerText = "21! You Win."
+                player.appendChild(displayResults)
             }
         }
         catch(err){
@@ -73,14 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
             score += Number(card.data.cards[0].value)
             playerScore.innerText = `Score: ${score}`
             if(score === 21){
-                let winner = document.createElement("h1")
-                winner.innerText = " 21! You win"
-                game.replaceWith(winner)
+                displayResults.innerText = " 21! You win"
+                game.replaceWith(displayResults)
             }
             if(score > 21){
-                let lose = document.createElement("h1")
-                lose.innerText = "Bust"
-                game.replaceWith(lose)
+                displayResults.innerText = "Bust"
+                game.replaceWith(displayResults)
             } else if(score < 21) {
                 let hitAgain = document.createElement("h1")
                 hitAgain.innerText = "HIT OR STAY?!"
@@ -112,17 +110,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         dealerScore.innerText = `Score: ${dscore}`
         dealer.appendChild(dealerScore);  
-        let winner = document.createElement("h1")
         if(dscore < 21 && dscore > score){
-            winner.innerText = "DEALER WINS"
+            displayResults.innerText = "DEALER WINS"
         } else if (dscore < 21 && dscore < score){
-            winner.innerText = "PLAYER WINS"
+            displayResults.innerText = "PLAYER WINS"
         } else if (dscore === 21) {
-            winner.innerText = "DEALER WINS"
+            displayResults.innerText = "DEALER WINS"
         } else if (dscore > 21){
-            winner.innerText = "PLAYER WINS"
+            displayResults.innerText = "PLAYER WINS"
+        } else if (dscore === score) {
+            displayResults.innerText = "TIE GAME"
         }
-        game.replaceWith(winner)
+        game.replaceWith(displayResults)
     }
     catch(err){
         console.log(err)
