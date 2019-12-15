@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if(score > 11)
                 card.data.cards[0].value = 1
                 if(score < 11)
-                card.data.cards[0].vale = 11
+                card.data.cards[0].value = 11
             }
             score += Number(card.data.cards[0].value)
             playerScore.innerText = `Score: ${score}`
@@ -104,8 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     dealerDraw.data.cards[j].value = 11
             }
             dscore += Number(dealerDraw.data.cards[j].value)
-            // if(score === 22){
-            //     score = 12
+            // if(dscore > 21){
+            //     dealerDraw.data.cards[j].value["ACE"] === 1
             // }
         }
         dealerScore.innerText = `Score: ${dscore}`
