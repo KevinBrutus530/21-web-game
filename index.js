@@ -37,8 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
             begin.removeChild(start)
             if(score === 21){
                 let win = document.createElement("h1")
-                win.innerText = "YOU BITCH ASS WINNER"
-                main.replaceWith(win)
+                win.innerText = "21! You Win."
+                player.appendChild(win)
             }
         }
         catch(err){
@@ -57,19 +57,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 card.data.cards[0].value = 10 
             } 
             if (card.data.cards[0].value === "ACE"){
-                card.data.cards[0].value = 11
+                if(score > 11)
+                card.data.cards[0].value = 1
+                if(score < 11)
+                card.data.cards[0].vale = 11
             }
             score += Number(card.data.cards[0].value)
             playerScore.innerText = `Score: ${score}`
             if(score === 21){
                 let winner = document.createElement("h2")
                 winner.innerText = " 21! You win"
-                main.replaceWith(winner)
+                player.appendChild(winner)
             }
             if(score > 21){
                 let lose = document.createElement("h2")
-                lose.innerText = "LOSE HOE"
-                main.replaceWith(lose)
+                lose.innerText = "Bust"
+                player.appendChild(lose)
             } else if(score < 21) {
                 let hitAgain = document.createElement("h2")
                 hitAgain.innerText = "HIT OR STAY?!"
