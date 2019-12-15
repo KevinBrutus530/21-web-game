@@ -2,8 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let start = document.querySelector("#start");
     let deck_id;
     let score = 0;
+    let dscore = 0;
     let playerScore;
     let dealerScore;
+    let game = document.querySelector("#game")
     let main = document.querySelector("#main")
     let hitBtn = document.querySelector("#hit")
     let stayBtn = document.querySelector("#stay")
@@ -29,10 +31,14 @@ document.addEventListener("DOMContentLoaded", () => {
             for(let j = 0; j < draw.data.cards.length; j++){
                 if(draw.data.cards[j].value === "KING" || draw.data.cards[j].value === "QUEEN" || draw.data.cards[j].value === "JACK"){
                     draw.data.cards[j].value = 10 
-                } else if (draw.data.cards[j].value === "ACE"){
-                    draw.data.cards[j].value = 11
+                } 
+                if (draw.data.cards[j].value === "ACE"){
+                        draw.data.cards[j].value = 11
                 }
                 score += Number(draw.data.cards[j].value)
+                if(score === 22){
+                    score = 12
+                }
             }
             playerScore.innerText = `Score: ${score}`
             player.appendChild(playerScore);  
@@ -67,21 +73,22 @@ document.addEventListener("DOMContentLoaded", () => {
             score += Number(card.data.cards[0].value)
             playerScore.innerText = `Score: ${score}`
             if(score === 21){
-                let winner = document.createElement("h2")
+                let winner = document.createElement("h1")
                 winner.innerText = " 21! You win"
-                player.appendChild(winner)
+                game.replaceWith(winner)
             }
             if(score > 21){
-                let lose = document.createElement("h2")
+                let lose = document.createElement("h1")
                 lose.innerText = "Bust"
-                player.appendChild(lose)
+                game.replaceWith(lose)
             } else if(score < 21) {
-                let hitAgain = document.createElement("h2")
+                let hitAgain = document.createElement("h1")
                 hitAgain.innerText = "HIT OR STAY?!"
                 player.appendChild(hitAgain)
             }
     }
     const compCards = async () => {
+        try {
         let dealerDraw = await axios.get(`https://deckofcardsapi.com/api/deck/${deck_id}/draw/?count=3`);
 
         for(let i = 0; i < dealerDraw.data.cards.length; i++){
@@ -90,18 +97,37 @@ document.addEventListener("DOMContentLoaded", () => {
             dealerImg.src = src;
             dealer.appendChild(dealerImg);
         }
-        dealerScore = document.querySelector("h3");
-        dealerDraw.forEach(el => {
-            if(dealerDraw.data.cards[el].value === "KING" || dealerDraw.data.cards[el].value === "QUEEN" || dealerDraw.data.cards[el].value === "JACK"){
-                draw.data.cards[el].value = 10 
-            } else if (draw.data.cards[el].value === "ACE"){
-                draw.data.cards[el].value = 11
+        dealerScore = document.createElement("h3");
+        for(let j = 0; j < dealerDraw.data.cards.length; j++){
+            if(dealerDraw.data.cards[j].value === "KING" || dealerDraw.data.cards[j].value === "QUEEN" || dealerDraw.data.cards[j].value === "JACK"){
+                dealerDraw.data.cards[j].value = 10 
+            } 
+            if (dealerDraw.data.cards[j].value === "ACE"){
+                    dealerDraw.data.cards[j].value = 11
             }
-            score += Number(dealerDraw.data.card[el].value)
-        })
-        dealerScore.innerText = `Dealer Score: ${score}`
-        dealer.append(dealerScore)
+            dscore += Number(dealerDraw.data.cards[j].value)
+            // if(score === 22){
+            //     score = 12
+            // }
+        }
+        dealerScore.innerText = `Score: ${dscore}`
+        dealer.appendChild(dealerScore);  
+        let winner = document.createElement("h1")
+        if(dscore < 21 && dscore > score){
+            winner.innerText = "DEALER WINS"
+        } else if (dscore < 21 && dscore < score){
+            winner.innerText = "PLAYER WINS"
+        } else if (dscore === 21) {
+            winner.innerText = "DEALER WINS"
+        } else if (dscore > 21){
+            winner.innerText = "PLAYER WINS"
+        }
+        game.replaceWith(winner)
     }
+    catch(err){
+        console.log(err)
+    }
+}
 
     start.addEventListener("click", drawCards)
     hitBtn.addEventListener("click", hit)
