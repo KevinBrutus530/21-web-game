@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let deck_id;
     let score = 0;
     let playerScore;
+    let dealerScore;
     let main = document.querySelector("#main")
     let hitBtn = document.querySelector("#hit")
     let stayBtn = document.querySelector("#stay")
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
     }
     const compCards = async () => {
-        let dealerDraw = await axios.get(`https://deckofcardsapi.com/api/deck/${deck_id}/draw/?count=2`);
+        let dealerDraw = await axios.get(`https://deckofcardsapi.com/api/deck/${deck_id}/draw/?count=3`);
 
         for(let i = 0; i < dealerDraw.data.cards.length; i++){
             let dealerImg = document.createElement("img");
@@ -89,6 +90,17 @@ document.addEventListener("DOMContentLoaded", () => {
             dealerImg.src = src;
             dealer.appendChild(dealerImg);
         }
+        dealerScore = document.querySelector("h3");
+        dealerDraw.forEach(el => {
+            if(dealerDraw.data.cards[el].value === "KING" || dealerDraw.data.cards[el].value === "QUEEN" || dealerDraw.data.cards[el].value === "JACK"){
+                draw.data.cards[el].value = 10 
+            } else if (draw.data.cards[el].value === "ACE"){
+                draw.data.cards[el].value = 11
+            }
+            score += Number(dealerDraw.data.card[el].value)
+        })
+        dealerScore.innerText = `Dealer Score: ${score}`
+        dealer.append(dealerScore)
     }
 
     start.addEventListener("click", drawCards)

@@ -1,0 +1,42 @@
+body {
+    background-image: url("https://cdn.hipwallpaper.com/i/46/65/hEiUkp.jpg");
+    background-size: 100%;
+    color: white;
+}
+ h1 {
+    text-align: center;
+}
+
+#data {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+}
+
+img {
+    width: 150px;
+} 
+#start {
+    display: block;
+    height: auto;
+    width: 175px;
+    justify-content: center;
+    border-radius: 25px;
+    background-color: transparent;
+    color: white;
+    font-weight: bold;
+}
+
+#hit {
+    height: auto;
+    width: 175px;
+    justify-content: center;
+    border-radius: 25px;
+}
+
+#stay {
+    height: auto;
+    width: 175px;
+    justify-content: center;
+    border-radius: 25px;
+}
+
